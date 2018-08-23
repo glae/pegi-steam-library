@@ -8,7 +8,7 @@ Parse a game list (e.g. from steam) as input and prints its [PEGI info](https://
 ## On Ubuntu/Linux
 ### install dev environment 
 
-    ./setup.sh
+    ./__setup.sh
 
 ### launch app
 
@@ -16,4 +16,4 @@ Parse a game list (e.g. from steam) as input and prints its [PEGI info](https://
 
 ### uninstall dev environment 
 
-    ./uninstall.sh
+    ./__uninstall.sh
