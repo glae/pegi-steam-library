@@ -1,23 +1,24 @@
+import java.io.File
+
+import scala.io.Source
+
 object PEGISteamLibrary {
 
-
-  def parseInputFile(): List[VideoGameTitle] = {
-    List()
-  }
-
+  case class VideoGameTitle(title: String)
 
   def main(args: Array[String]): Unit = {
 
-    if (checkArguments(args)) {
+    if (!checkCLIArguments(args)) {
       println("\nPlease provide a plain text file as input, e.g.:\n    sbt \"run my-games.txt\"\n")
       sys.exit(-1)
     }
 
   }
 
-  def checkArguments(args: Array[String]): Boolean = args.length == 1
+  def parseGameListFile(gameList: File): List[VideoGameTitle] = Source.fromFile(gameList).getLines().toList.map(VideoGameTitle)
 
-  case class VideoGameTitle(title: String)
+  def checkCLIArguments(args: Array[String]): Boolean = args.length == 1 && args.head.trim().nonEmpty
+
 
 }
 
