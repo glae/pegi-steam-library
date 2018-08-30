@@ -11,12 +11,12 @@ Parse a game list (e.g. from steam) as input and prints its [PEGI info](https://
 
     sbt "run my-games.txt"
 
+---
 
 ### unit test 
 
     sbt test
     
-
 ### install dev environment 
 
     ./__setup.sh
