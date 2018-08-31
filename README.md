@@ -7,20 +7,24 @@ Parse a game list (e.g. from steam) as input and prints its [PEGI info](https://
  
 ## On Ubuntu/Linux
 
+[JDK and sbt](#install) are required.
+
 ### launch app
 
     sbt "run my-games.txt"
 
----
 
-### unit test 
+### technical details
+
+    
+#### <a name="install"></a> install dev environment 
+
+    ./__setup.sh
+
+#### unit test 
 
     sbt test
     
-### install dev environment 
-
-    ./__setup.sh
-    
-### uninstall dev environment 
+#### uninstall dev environment 
 
     ./__uninstall.sh
