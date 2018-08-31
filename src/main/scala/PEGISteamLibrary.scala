@@ -1,10 +1,14 @@
 import java.io.File
 
+import com.typesafe.scalalogging.StrictLogging
+
 import scala.io.Source
 
-object PEGISteamLibrary {
+object PEGISteamLibrary extends StrictLogging {
 
-  case class VideoGameTitle(title: String)
+  case class GameTitle(title: String)
+
+  case class PEGIDetails(titleFOund: String, rating:String, todo:String)
 
   def main(args: Array[String]): Unit = {
 
@@ -15,10 +19,13 @@ object PEGISteamLibrary {
 
   }
 
-  def parseGameListFile(gameList: File): List[VideoGameTitle] = Source.fromFile(gameList).getLines().toList.map(VideoGameTitle)
+  def parseGameListFile(gameList: File): List[GameTitle] = Source.fromFile(gameList).getLines().toList.map(GameTitle)
 
   def checkCLIArguments(args: Array[String]): Boolean = args.length == 1 && args.head.trim().nonEmpty
 
+  def scrapPEGIWebpage(game: GameTitle, webpageContent:String): Option[PEGIDetails] = {
+    None
+  }
 
 }
 

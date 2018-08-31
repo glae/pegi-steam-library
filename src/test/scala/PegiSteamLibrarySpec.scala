@@ -1,7 +1,10 @@
 import java.io.File
 
-import PEGISteamLibrary.VideoGameTitle
+import PEGISteamLibrary.{GameTitle, PEGIDetails}
 import org.scalatest.{FlatSpec, Matchers}
+
+import scala.io.Source
+
 
 class PegiSteamLibrarySpec extends FlatSpec with Matchers {
 
@@ -19,22 +22,58 @@ class PegiSteamLibrarySpec extends FlatSpec with Matchers {
 
     PEGISteamLibrary.parseGameListFile(new File("my-games.txt")) should be(
       List(
-        VideoGameTitle("Hyper Light Drifter"),
-        VideoGameTitle("World of Warcraft: Battle for Azeroth"),
-        VideoGameTitle("Yoshi for Nintendo Switch"),
-        VideoGameTitle("Mass Effect"),
-        VideoGameTitle("DOOM GTS"),
-        VideoGameTitle("WWE Survivor Series"),
-        VideoGameTitle("Chasm"),
-        VideoGameTitle("Crusader Kings II"),
-        VideoGameTitle("Gold Rush: The Game"),
-        VideoGameTitle("Tanzia"),
-        VideoGameTitle("The Jackbox Party Pack 3"),
-        VideoGameTitle("Mario Tennis Aces"),
-        VideoGameTitle("Journey"),
-        VideoGameTitle("Mafia III"),
-        VideoGameTitle("Call of Duty: Black Ops III"))
+        GameTitle("Hyper Light Drifter"),
+        GameTitle("World of Warcraft: Battle for Azeroth"),
+        GameTitle("Yoshi for Nintendo Switch"),
+        GameTitle("Mass Effect"),
+        GameTitle("DOOM GTS"),
+        GameTitle("WWE Survivor Series"),
+        GameTitle("Chasm"),
+        GameTitle("Crusader Kings II"),
+        GameTitle("Gold Rush: The Game"),
+        GameTitle("Tanzia"),
+        GameTitle("The Jackbox Party Pack 3"),
+        GameTitle("Mario Tennis Aces"),
+        GameTitle("Journey"),
+        GameTitle("Mafia III"),
+        GameTitle("Call of Duty: Black Ops III"),
+        GameTitle("Phobia 2"),
+      )
     )
   }
 
+
+  it should "return *zero* game detail when there is no result from game query in PEGI webpage" in {
+
+    PEGISteamLibrary.scrapPEGIWebpage(
+      GameTitle("Phobia 2"),
+      HTMLTestFile("PEGI-Phobia 2-no-result.html"))
+
+      .shouldBe(None)
+  }
+
+
+  it should "return *one* game detail when there is one result from game query in PEGI webpage" in {
+
+    PEGISteamLibrary.scrapPEGIWebpage(
+      GameTitle("World of Warcraft: Battle for Azeroth"),
+      HTMLTestFile("PEGI-World of Warcraft Battle for Azeroth-unique-result.html"))
+
+      .shouldBe(Some(PEGIDetails("", "", "")))
+
+  }
+
+  it should "return *one* game detail result when there are many results (arbitrary: the first one) from game query in PEGI webpage" in {
+
+    PEGISteamLibrary.scrapPEGIWebpage(
+      GameTitle("World of Warcraft: Battle for Azeroth"),
+      HTMLTestFile("PEGI-Hyper Light Drifter-multiple-result.html"))
+
+      .shouldBe(Some(PEGIDetails("", "", "")))
+  }
+
+
+  private def HTMLTestFile(filename: String) = Source.fromResource(filename).mkString
+
 }
+
