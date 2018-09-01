@@ -47,7 +47,7 @@ object PEGISteamLibrary extends StrictLogging {
                 <style>* {font-family:sans-serif}</style>
                 </head>
       <body><h1>PEGI report</h1>
-      <p>Please not that games that have not been found do not appear on this page.</p>
+      <p>Please note that games that have not been found do not appear on this page.</p>
       <table>
       <tr><th>Searched game</th><th>Found game</th><th>Customer advice</th><th>Rating</th><th>Tags</th></tr>"""
     val footer = "</table></body></html>"
