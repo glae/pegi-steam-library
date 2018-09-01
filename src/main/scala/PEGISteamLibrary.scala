@@ -31,7 +31,7 @@ object PEGISteamLibrary extends StrictLogging {
         .flatMap(scrapPEGIWebpage)
         .map(writeHTMLTableLigne)
 
-    writeOutput(gameFile, content.mkString)
+    if (content.nonEmpty) writeOutput(gameFile, content.mkString)
   }
 
 
