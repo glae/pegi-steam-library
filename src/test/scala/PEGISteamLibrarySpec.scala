@@ -1,9 +1,9 @@
 import java.io.File
-import PEGISteamLibrary.{GameTitle, PEGIDetails}
+import PEGISteamLibrary.{GameResponse, GameTitle, PEGIDetails}
 import org.scalatest.{FlatSpec, Matchers}
 import scala.io.Source
 
-class PEGISteamLibraryTest extends FlatSpec with Matchers {
+class PEGISteamLibrarySpec extends FlatSpec with Matchers {
 
 
   it should "take one argument as CLI input" in {
@@ -42,22 +42,34 @@ class PEGISteamLibraryTest extends FlatSpec with Matchers {
 
   it should "return *zero* game detail when there is no result from game query in PEGI webpage" in {
 
-    PEGISteamLibrary.scrapPEGIWebpage(GameTitle("Phobia 2"), HTMLTestFile("PEGI-Phobia 2-no-result.html")) should be(None)
+    PEGISteamLibrary.scrapPEGIWebpage(GameResponse(GameTitle("Phobia 2"), HTMLTestFile("PEGI-Phobia 2-no-result.html"))) should be(None)
   }
 
 
   it should "return *one* game detail when there is one result from game query in PEGI webpage" in {
 
-    PEGISteamLibrary.scrapPEGIWebpage(
-      GameTitle("World of Warcraft: Battle for Azeroth"), HTMLTestFile("PEGI-World of Warcraft-unique-result.html"))
-      .shouldBe(Some(PEGIDetails("", "", "")))
+    PEGISteamLibrary.scrapPEGIWebpage(GameResponse(
+      GameTitle("World of Warcraft: Battle for Azeroth"), HTMLTestFile("PEGI-World of Warcraft-unique-result.html")))
+      .shouldBe(Some(PEGIDetails(
+        "World of Warcraft: Battle for Azeroth",
+        "World of Warcraft: Battle for Azeroth",
+        "https://pegi.info/themes/pegi/public-images/pegi/pegi12.png",
+        "This game was rated PEGI 12 for frequent scenes of mild violence and use of offensive language. It is not suitable for persons under 12 years of age.", List(
+          "https://pegi.info/themes/pegi/public-images/violence.png", "https://pegi.info/themes/pegi/public-images/bad_language.png"
+        ))))
   }
 
 
   it should "return *one* game detail result when there are many results (arbitrary: the first one) from game query in PEGI webpage" in {
 
-    PEGISteamLibrary.scrapPEGIWebpage(GameTitle("Hyper Light Drifter"), HTMLTestFile("PEGI-Hyper Light Drifter-multiple-result.html"))
-      .shouldBe(Some(PEGIDetails("", "", "")))
+    PEGISteamLibrary.scrapPEGIWebpage(GameResponse(
+      GameTitle("Hyper Light Drifter"), HTMLTestFile("PEGI-Hyper Light Drifter-multiple-result.html")))
+      .shouldBe(Some(PEGIDetails(
+        "Hyper Light Drifter",
+        "Hyper Light Drifter",
+        "https://pegi.info/themes/pegi/public-images/pegi/pegi12.png",
+        "The game was rated PEGI 12 for realistic violence towards fantasy characters. Not appropriate for persons below 12 years of age.",
+        List("https://pegi.info/themes/pegi/public-images/violence.png"))))
   }
 
 
