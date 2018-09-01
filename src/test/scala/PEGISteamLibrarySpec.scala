@@ -73,6 +73,16 @@ class PEGISteamLibrarySpec extends FlatSpec with Matchers {
   }
 
 
+  it should "*NOT* crash with all theses games in PEGI webpage" in {
+
+    PEGISteamLibrary.scrapPEGIWebpage(GameResponse(
+      GameTitle("mass effect"), HTMLTestFile("PEGI-wwe.html")))
+
+
+  }
+
+
+
   private def HTMLTestFile(filename: String) = Source.fromResource(filename).mkString
 
 }

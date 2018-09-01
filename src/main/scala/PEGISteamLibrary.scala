@@ -84,7 +84,7 @@ object PEGISteamLibrary extends StrictLogging {
     val doc = JsoupBrowser().parseString(gameResponse.response)
 
     val resultCount = (doc >> text(".results-count strong")).split(" ")(0).toInt
-    logger.info(s"Found $resultCount result(s) on PEGI website")
+    logger.info(s"Found $resultCount result(s) on PEGI website for ${gameResponse.title.title}")
 
     resultCount match {
       case 0 => None
@@ -93,7 +93,7 @@ object PEGISteamLibrary extends StrictLogging {
           gameResponse.title.title,
           doc >> text(".body.text-with-summary .info h3"),
           (doc >> element(".body.text-with-summary .age-rating img")).attr("src"),
-          doc >> text(".body.text-with-summary .content-main"),
+          (doc >?> text(".body.text-with-summary .content-main")).getOrElse("No description"),
           (doc >> elements(".body.text-with-summary .game:first-child .descriptors img")).map(_.attr("src")).toList)
 
         logger.info("found: " + details)
