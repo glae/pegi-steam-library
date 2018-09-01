@@ -1,12 +1,9 @@
 import java.io.File
-
 import PEGISteamLibrary.{GameTitle, PEGIDetails}
 import org.scalatest.{FlatSpec, Matchers}
-
 import scala.io.Source
 
-
-class PegiSteamLibrarySpec extends FlatSpec with Matchers {
+class PEGISteamLibraryTest extends FlatSpec with Matchers {
 
 
   it should "take one argument as CLI input" in {
@@ -45,30 +42,21 @@ class PegiSteamLibrarySpec extends FlatSpec with Matchers {
 
   it should "return *zero* game detail when there is no result from game query in PEGI webpage" in {
 
-    PEGISteamLibrary.scrapPEGIWebpage(
-      GameTitle("Phobia 2"),
-      HTMLTestFile("PEGI-Phobia 2-no-result.html"))
-
-      .shouldBe(None)
+    PEGISteamLibrary.scrapPEGIWebpage(GameTitle("Phobia 2"), HTMLTestFile("PEGI-Phobia 2-no-result.html")) should be(None)
   }
 
 
   it should "return *one* game detail when there is one result from game query in PEGI webpage" in {
 
     PEGISteamLibrary.scrapPEGIWebpage(
-      GameTitle("World of Warcraft: Battle for Azeroth"),
-      HTMLTestFile("PEGI-World of Warcraft Battle for Azeroth-unique-result.html"))
-
+      GameTitle("World of Warcraft: Battle for Azeroth"), HTMLTestFile("PEGI-World of Warcraft-unique-result.html"))
       .shouldBe(Some(PEGIDetails("", "", "")))
-
   }
+
 
   it should "return *one* game detail result when there are many results (arbitrary: the first one) from game query in PEGI webpage" in {
 
-    PEGISteamLibrary.scrapPEGIWebpage(
-      GameTitle("World of Warcraft: Battle for Azeroth"),
-      HTMLTestFile("PEGI-Hyper Light Drifter-multiple-result.html"))
-
+    PEGISteamLibrary.scrapPEGIWebpage(GameTitle("Hyper Light Drifter"), HTMLTestFile("PEGI-Hyper Light Drifter-multiple-result.html"))
       .shouldBe(Some(PEGIDetails("", "", "")))
   }
 
