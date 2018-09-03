@@ -29,7 +29,7 @@ object PEGISteamLibrary extends StrictLogging {
       parseGameListFile(new File(gameFile))
         .map(callPEGIWebsite)
         .flatMap(scrapPEGIWebpage)
-        .map(writeHTMLTableLigne)
+        .map(writeHTMLTableLine)
 
     if (content.nonEmpty) writeOutput(gameFile, content.mkString)
   }
@@ -101,7 +101,7 @@ object PEGISteamLibrary extends StrictLogging {
     }
   }
 
-  def writeHTMLTableLigne(details: PEGIDetails): String = {
+  def writeHTMLTableLine(details: PEGIDetails): String = {
     s"""
         <tr>
         <td>${details.searchTitle}</td>
