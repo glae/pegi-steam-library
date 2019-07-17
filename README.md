@@ -19,7 +19,7 @@ JDK and sbt are required (see "install dev environment" section).
     
 #### <a name="install"></a> install dev environment 
 
-    ./__setup.sh
+    ./__install.sh
 
 #### unit test 
 
